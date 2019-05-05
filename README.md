@@ -6,13 +6,14 @@
 
 [Micropub](https://www.w3.org/TR/micropub/) client for the CLI.
 
-Designed for [entries.pub](https://github.com/tsileo/entries.pub) but should work with any Micropub server.
+Built as a client for [entries.pub](https://github.com/tsileo/entries.pub) but should work with any Micropub server.
 
 
 ## Features
 
- - Zero configuration (everything is "guessed" from the URI)
- - Create/update posts directly within your favorite `$EDITOR`
+ - Zero configuration (everything is "guessed" from the URL)
+ - Create/update/delete articles directly within your favorite `$EDITOR`
+ - Created with `article` [microformats2](http://microformats.org/wiki/microformats2) objects in mind
  - Support the [mp-slug](https://indieweb.org/Micropub-extensions#Slug) extension
 
 
