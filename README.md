@@ -6,16 +6,22 @@
 
 [Micropub](https://www.w3.org/TR/micropub/) client for the CLI.
 
-Designed for [entries.pub](https://github.com/tsileo/entries.pub) but it should work on any Micropub compatible website.
+Designed for [entries.pub](https://github.com/tsileo/entries.pub) but should work with any Micropub server.
+
 
 ## Features
 
  - Zero configuration (everything is "guessed" from the URI)
- - Create/update posts directly within `vim`
+ - Create/update posts directly within your favorite `$EDITOR`
+ - Support the [mp-slug](https://indieweb.org/Micropub-extensions#Slug) extension
+
 
 ## Install
 
+Requires Python3+.
+
     $ pip install git+https://github.com/tsileo/entries
+
 
 ## Usage
 
