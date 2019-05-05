@@ -1,0 +1,10 @@
+kind: pipeline
+name: default
+steps:
+  - name : lint
+    image: python:3
+    commands:
+      - pip install black flake8 mypy
+      - black --check .
+      - flake8 cli.py
+      - mypy --ignore-missing-imports cli.py
