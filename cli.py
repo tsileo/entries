@@ -47,7 +47,9 @@ class IndieAuthCallbackHandler(BaseHTTPRequestHandler):
         self.send_response(200)
         self.send_header("Content-type", "text/html")
         self.end_headers()
-        self.wfile.write(b'<body style="background:#111;color:#ddd"><h1>Done, you can close this tab now.</h1></body>')
+        self.wfile.write(
+            b'<body style="background:#111;color:#ddd"><h1>Done, you can close this tab now.</h1></body>'
+        )
 
         self.server.access_token = tok.json()["access_token"]
 
