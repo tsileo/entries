@@ -1,6 +1,7 @@
 import binascii
 import os
 import urllib
+import tempfile
 import webbrowser
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
@@ -46,7 +47,7 @@ class IndieAuthCallbackHandler(BaseHTTPRequestHandler):
         self.send_response(200)
         self.send_header("Content-type", "text/html")
         self.end_headers()
-        self.wfile.write(b"<h1>Done, you can close this tab now.</h1>")
+        self.wfile.write(b'<body style="background:#111;color:#ddd"><h1>Done, you can close this tab now.</h1></body>')
 
         self.server.access_token = tok.json()["access_token"]
 
@@ -97,8 +98,12 @@ def get_access_token(u, scopes):
     # Open the URL in a tab
     webbrowser.open_new_tab(auth_url)
 
+    click.echo("waiting for the IndieAuth callback...")
+    tok = _wait_for_access_token(me, tok_endpoint)
+    click.echo("success")
+
     # And wait for the callback via the redirect_uri
-    return (me, micropub_endpoint, _wait_for_access_token(me, tok_endpoint))
+    return (me, micropub_endpoint, tok)
 
 
 def micropub_create(micropub_endpoint, access_token, content, meta):
@@ -173,13 +178,36 @@ category: []
 """
 
 
+def edit(header):
+    """`click.edit` wrapper that keeps a copy of the edited content in a file."""
+    dat = click.edit(header)
+    if dat is None:
+        raise ValueError("cancelled, no data saved")
+    raw_meta, message = dat.split("---", 1)
+
+    # Keep the data in case the server fails
+    # TODO(tsileo): clean it
+    with tempfile.NamedTemporaryFile("w", delete=False) as cache:
+        cache.write(dat)
+
+    click.echo(f"data will be available at {cache.name} in case of crash")
+    return message, yaml.safe_load(raw_meta), cache.name
+
+
+def done(t):
+    os.remove(t)
+    click.echo("success 🐢")
+
+
 @click.command()
 @click.argument("url", required=True)
 def create(url):
     _, micropub_endpoint, tok = get_access_token(url, ["create"])
-    raw_meta, message = click.edit(header, editor="vim").split("---", 1)
-    micropub_create(micropub_endpoint, tok, message, yaml.safe_load(raw_meta))
-    click.echo("Saved")
+
+    message, meta, t = edit(header)
+
+    micropub_create(micropub_endpoint, tok, message, meta)
+    done(t)
 
 
 def _get(source, k, default):
@@ -195,21 +223,22 @@ def build_header(source):
     return f"""name: {name}
 mp-slug: {slug}
 category: {cat!s}
----
-"""
+---"""
 
 
 @click.command()
 @click.argument("url", required=True)
 def update(url):
     _, micropub_endpoint, tok = get_access_token(url, ["update"])
+
+    # Fetch the source
     source = micropub_source(micropub_endpoint, tok, url)
     existing_content = source["properties"]["content"][0]
-    raw_meta, new_content = click.edit(
-        build_header(source) + existing_content, editor="vim"
-    ).split("---", 1)
-    micropub_update(micropub_endpoint, tok, url, new_content, yaml.safe_load(raw_meta))
-    click.echo("Updated")
+
+    # Edit
+    new_content, meta, t = edit(build_header(source) + existing_content)
+    micropub_update(micropub_endpoint, tok, url, new_content, meta)
+    done(t)
 
 
 @click.command()
