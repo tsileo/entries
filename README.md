@@ -8,6 +8,11 @@
 
 Designed for [entries.pub](https://github.com/tsileo/entries.pub) but it should work on any Micropub compatible website.
 
+## Features
+
+ - Zero configuration (everything is "guessed" from the URI)
+ - Create/update posts directly within `vim`
+
 ## Install
 
     $ pip install git+https://github.com/tsileo/entries
