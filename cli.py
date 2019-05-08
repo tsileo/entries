@@ -10,7 +10,9 @@ import mf2py
 import requests
 import yaml
 
-CLIENT_ID = "https://github.com/tsileo/entries"  # TODO(tsileo): switch the a static page (hosted on entries.pub FTW)
+CLIENT_ID = (
+    "https://github.com/tsileo/entries"
+)  # TODO(tsileo): switch the a static page (hosted on entries.pub FTW)
 REDIRECT_URI = "http://localhost:7881/"
 
 
