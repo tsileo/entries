@@ -1,5 +1,6 @@
 import binascii
 import os
+import pkg_resources
 import urllib
 import tempfile
 import webbrowser
@@ -10,9 +11,9 @@ import mf2py
 import requests
 import yaml
 
-CLIENT_ID = (
-    "https://github.com/tsileo/entries"
-)  # TODO(tsileo): switch the a static page (hosted on entries.pub FTW)
+VERSION = pkg_resources.get_distribution("entries").version
+
+CLIENT_ID = "https://hexa.ninja/5ce9a178def3b70a/entries-cli"
 REDIRECT_URI = "http://localhost:7881/"
 
 
@@ -116,8 +117,10 @@ def micropub_create(micropub_endpoint, access_token, content, meta):
         props["name"] = [meta["name"]]
     if meta["category"]:
         props["category"] = meta["category"]
-    if meta["mp-slug"]:
-        props["mp-slug"] = [meta["mp-slug"]]
+    for k in ["mp-slug", "mp-extra-head", "mp-extra-body"]:
+        if k in meta:
+            props[k] = [meta[k]]
+
     resp = requests.post(
         micropub_endpoint,
         headers={"Authorization": f"Bearer {access_token}"},
@@ -134,6 +137,9 @@ def micropub_update(micropub_endpoint, access_token, url, content, meta):
     if meta["category"]:
         replace["category"] = meta["category"]
     # XXX no mp-slug update
+    for k in ["mp-extra-head", "mp-extra-body"]:
+        if meta[k]:
+            replace[k] = [meta[k]]
     resp = requests.post(
         micropub_endpoint,
         headers={"Authorization": f"Bearer {access_token}"},
@@ -164,6 +170,7 @@ def micropub_source(micropub_endpoint, access_token, url):
 
 
 @click.group()
+@click.version_option(VERSION)
 def cli():
     pass
 
@@ -216,17 +223,28 @@ def create(url):
 
 def _get(source, k, default):
     if k in source["properties"] and len(source["properties"][k]):
-        return source["properties"][k][0]
+        vs = source["properties"][k]
+        if k in ["category"]:
+            return vs
+        else:
+            return vs[0]
+
     return default
 
 
 def build_header(source):
     name = _get(source, "name", "null")
     slug = _get(source, "mp-slug", "null")
+    extra_head = "\n  ".join(_get(source, "mp-extra-head", "").split("\n"))
+    extra_body = "\n  ".join(_get(source, "mp-extra-body", "").split("\n"))
     cat = _get(source, "category", [])
     return f"""name: {name}
 mp-slug: {slug}
 category: {cat!s}
+mp-extra-head: |
+  {extra_head}
+mp-extra-body: |
+  {extra_body}
 ---"""
 
 
@@ -247,6 +265,16 @@ def update(url):
 
 @click.command()
 @click.argument("url", required=True)
+def source(url):
+    _, micropub_endpoint, tok = get_access_token(url, ["update"])
+
+    # Fetch the source
+    source = micropub_source(micropub_endpoint, tok, url)
+    click.echo(source)
+
+
+@click.command()
+@click.argument("url", required=True)
 def delete(url):
     _, micropub_endpoint, tok = get_access_token(url, ["delete"])
     micropub_delete(micropub_endpoint, tok, url)
@@ -255,6 +283,7 @@ def delete(url):
 cli.add_command(get_token)
 cli.add_command(create)
 cli.add_command(update)
+cli.add_command(source)
 cli.add_command(delete)
 
 
