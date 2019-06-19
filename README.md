@@ -4,7 +4,7 @@
 <a href="https://github.com/tsileo/entries/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-ISC-red.svg?style=flat" alt="License"></a>
 <a href="https://github.com/ambv/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
 
-[Micropub](https://www.w3.org/TR/micropub/) client for the CLI.
+_entries_ is an open-source [Micropub](https://www.w3.org/TR/micropub/) client for the terminal ([source code](http://github.com/tsileo/entries))
 
 Built as a client for [entries.pub](https://github.com/tsileo/entries.pub) but should work with any Micropub server.
 
