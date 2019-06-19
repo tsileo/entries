@@ -19,9 +19,13 @@ Built as a client for [entries.pub](https://github.com/tsileo/entries.pub) but s
 
 ## Install
 
-Requires Python3+.
+The easiest way to install (and use) _entries_ is to use [pipx](https://pipxproject.github.io/pipx/):
 
-    $ pip install git+https://github.com/tsileo/entries
+    $ pipx install entries
+
+Or using pip (requires Python3+):
+
+    $ pip install entries
 
 
 ## Usage
