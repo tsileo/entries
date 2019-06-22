@@ -1,10 +1,15 @@
+from pathlib import Path
 from setuptools import setup
+
+README = Path(__file__).parent.joinpath("README.md").resolve()
 
 setup(
     name="entries",
     version="0.1.1",
     url="github.com/tsileo/entries",
     description="Micropub client for the terminal",
+    long_description=README.read_text(),
+    long_description_content_type="text/markdown",
     author="Thomas Sileo",
     author_email="t@a4.io",
     license="OSI Approved :: ISC License (ISCL)",
