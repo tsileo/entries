@@ -1,6 +1,6 @@
 # entries
 
-<a href="https://builds.sr.ht/~tsileo/entries?"><img src="https://builds.sr.ht/~tsileo/entries" alt="Build Status"></a>
+<a href="https://builds.sr.ht/~tsileo/entries?"><img src="https://builds.sr.ht/~tsileo/entries.svg" alt="Build Status"></a>
 <a href="https://pypi.python.org/pypi/entries/"><img alt="PyPI" src="https://img.shields.io/pypi/v/entries.svg?color=blue"></a>
 <a href="https://git.sr.ht/~tsileo/entries/tree/master/LICENSE"><img src="https://img.shields.io/badge/license-ISC-red.svg?style=flat" alt="License"></a>
 <a href="https://github.com/ambv/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
