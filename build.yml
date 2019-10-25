@@ -1,0 +1,7 @@
+image: python:3
+tasks:
+- lints: |
+    pip install black flake8 mypy
+    black --check .
+    flake8 cli.py
+    mypy --ignore-missing-imports cli.py
