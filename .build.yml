@@ -1,0 +1,13 @@
+image: ubuntu/latest
+sources:
+- https://git.sr.ht/~tsileo/entries
+packages:
+- python3-dev
+- python3-pip
+tasks:
+- lints: |
+   cd entries
+   pip3 install black flake8 mypy
+   python3 -m black --check .
+   python3 -m flake8 .
+   python3 -m mypy --ignore-missing-imports cli.py
