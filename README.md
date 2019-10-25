@@ -1,11 +1,11 @@
 # entries
 
-<a href="https://d.a4.io/tsileo/entries"><img src="https://d.a4.io/api/badges/tsileo/entries/status.svg" alt="Build Status"></a>
+<a href="https://builds.sr.ht/~tsileo/entries?"><img src="https://builds.sr.ht/~tsileo/entries" alt="Build Status"></a>
 <a href="https://pypi.python.org/pypi/entries/"><img alt="PyPI" src="https://img.shields.io/pypi/v/entries.svg?color=blue"></a>
-<a href="https://github.com/tsileo/entries/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-ISC-red.svg?style=flat" alt="License"></a>
+<a href="https://git.sr.ht/~tsileo/entries/tree/master/LICENSE"><img src="https://img.shields.io/badge/license-ISC-red.svg?style=flat" alt="License"></a>
 <a href="https://github.com/ambv/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
 
-_entries_ is an open-source [Micropub](https://www.w3.org/TR/micropub/) client for the terminal ([source code](http://github.com/tsileo/entries))
+_entries_ is an open-source [Micropub](https://www.w3.org/TR/micropub/) client for the terminal ([source code](https://git.sr.ht/~tsileo/entries))
 
 Built as a client for [entries.pub](https://github.com/tsileo/entries.pub) but should work with any Micropub server.
 
