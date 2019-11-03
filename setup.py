@@ -6,7 +6,7 @@ README = Path(__file__).parent.joinpath("README.md").resolve()
 setup(
     name="entries",
     version="0.1.2",
-    url="https://github.com/tsileo/entries",
+    url="https://git.sr.ht/~tsileo/entries",
     description="Micropub client for the terminal",
     long_description=README.read_text(),
     long_description_content_type="text/markdown",
